@@ -92,7 +92,7 @@ const page = () => {
           <div className="grid gap-4 md:grid-cols-2">
             {experiences.map((item, index) => (
               <div
-                key={item.title}
+                key={`${item.org.en}-${item.title.en}-${index}`}
                 className="rounded-2xl border border-BorderLine dark:border-dark_border bg-white dark:bg-darklight p-4 sm:p-5 shadow-lg shadow-light-shadwo dark:shadow-darkmd transition hover:-translate-y-0.5 hover:border-primary/50 dark:hover:border-primary/50"
               >
                 <div className="space-y-1">

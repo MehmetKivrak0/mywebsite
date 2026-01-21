@@ -90,6 +90,10 @@ export const cardData = [
       src: getImgPath('/images/work-grow/financial-image.jpg'),
       alt: { tr: 'work-grow', en: 'work-grow' },
       title: { tr: 'Financial data concept illustration', en: 'Financial data concept illustration' },
+      description: {
+        tr: '',
+        en: '',
+      },
       slug: "portfolio-5"
     },
   ];
