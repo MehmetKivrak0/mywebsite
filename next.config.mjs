@@ -1,11 +1,12 @@
 /** @type {import('next').NextConfig} */
 const isProd = process.env.NODE_ENV === "production";
-const basePath = isProd ? "/sustainable-nextjs" : "";
+// Vercel'de basePath kullanma, sadece GitHub Pages için gerekli
+const isVercel = process.env.VERCEL === "1";
+const basePath = isProd && !isVercel ? "/sustainable-nextjs" : "";
 
 const nextConfig = {
-  // `output: 'export'` breaks some dev-time manifests in Next 15.x.
-  // Keep static export for production builds only.
-  ...(isProd ? { output: "export" } : {}),
+  // Vercel'de static export kullanma, Next.js server kullan
+  ...(isProd && !isVercel ? { output: "export" } : {}),
   basePath,
   assetPrefix: basePath,
   images: {
