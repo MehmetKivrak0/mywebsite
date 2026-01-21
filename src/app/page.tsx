@@ -4,7 +4,7 @@ import Hero from '@/components/Home/Hero';
 import BuildAmazing from '@/components/Home/Build-Amazing'
 import WorkGrow from '@/components/Home/work-grow';
 export const metadata: Metadata = {
-  title: "Sustainable",
+  title: "mehmetk",
 };
 
 export default function Home() {

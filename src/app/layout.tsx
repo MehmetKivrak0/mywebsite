@@ -8,6 +8,7 @@ import { DM_Sans } from "next/font/google";
 import NextTopLoader from "nextjs-toploader";
 import { AuthDialogProvider } from "./context/AuthDialogContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import ConsoleErrorSuppressor from "@/components/ConsoleErrorSuppressor";
 import "./globals.css";
 const dmsans = DM_Sans({ subsets: ["latin"] });
 
@@ -27,6 +28,7 @@ export default function RootLayout({
       }
     >
       <body className={dmsans.className}>
+        <ConsoleErrorSuppressor />
         <AuthDialogProvider>
           <SessionProviderComp session={null}>
             <ThemeProvider

@@ -4,7 +4,7 @@ import HeroSub from '@/components/SharedComponent/HeroSub'
 import { Metadata } from 'next'
 import Trans from '@/components/i18n/Trans'
 export const metadata: Metadata = {
-  title: 'Blog | Sustainable',
+  title: 'Blog | mehmetk',
 }
 
 const BlogPage = () => {

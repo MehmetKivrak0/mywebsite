@@ -4,7 +4,7 @@ import React from "react";
 import { Metadata } from "next";
 import Trans from "@/components/i18n/Trans";
 export const metadata: Metadata = {
-  title: "FAQ | Sustainable",
+  title: "FAQ | mehmetk",
 };
 
 const page = () => {

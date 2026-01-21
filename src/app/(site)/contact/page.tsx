@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import Trans from "@/components/i18n/Trans";
 import ContactForm from "@/components/Contact/Form";
 export const metadata: Metadata = {
-    title: "Contact | Sustainable",
+    title: "Contact | mehmetk",
 };
 
 const page = () => {

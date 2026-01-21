@@ -4,7 +4,7 @@ import { Metadata } from "next";
 import Trans from "@/components/i18n/Trans";
 
 export const metadata: Metadata = {
-  title: "404 Page | Sustainable ",
+  title: "404 Page | mehmetk",
 };
 
 const ErrorPage = () => {
