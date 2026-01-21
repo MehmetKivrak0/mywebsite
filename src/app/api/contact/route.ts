@@ -35,30 +35,39 @@ export async function POST(req: Request) {
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
 
+    const configFlags = {
+      hasContactEmail: Boolean(contactEmail),
+      hasSmtpHost: Boolean(smtpHost),
+      hasSmtpPort: Boolean(smtpPort),
+      hasSmtpUser: Boolean(smtpUser),
+      hasSmtpPass: Boolean(smtpPass),
+    };
+
     if (!contactEmail || !smtpHost || !smtpPort || !smtpUser || !smtpPass) {
-      console.error("[contact] E-posta ayarları eksik. Lütfen .env dosyasını kontrol edin.", {
-        hasContactEmail: Boolean(contactEmail),
-        hasSmtpHost: Boolean(smtpHost),
-        hasSmtpPort: Boolean(smtpPort),
-        hasSmtpUser: Boolean(smtpUser),
-        hasSmtpPass: Boolean(smtpPass),
-      });
+      console.error(
+        "[contact] E-posta ayarları eksik. Lütfen environment variables (.env/Vercel) kontrol edin.",
+        configFlags,
+      );
       return NextResponse.json(
-        { ok: false, error: "email_config_missing" },
+        { ok: false, error: "email_config_missing", details: configFlags },
         { status: 500 },
       );
     }
 
     // Nodemailer transporter oluştur
+    const portNumber = Number.parseInt(String(smtpPort), 10);
     const transporter = nodemailer.createTransport({
       host: smtpHost,
-      port: parseInt(smtpPort, 10),
-      secure: parseInt(smtpPort, 10) === 465, // 465 için SSL, diğerleri için false
+      port: Number.isFinite(portNumber) ? portNumber : 587,
+      secure: portNumber === 465, // 465 için SSL, diğerleri için false
       auth: {
         user: smtpUser,
         pass: smtpPass,
       },
     });
+
+    // Fail fast with a clearer error if SMTP is unreachable / auth fails.
+    await transporter.verify();
 
     // E-posta içeriği
     const mailOptions = {
@@ -109,9 +118,25 @@ ${message}
 
     return NextResponse.json({ ok: true });
   } catch (error) {
-    console.error("[contact] E-posta gönderme hatası:", error);
+    const err = error as any;
+    console.error("[contact] E-posta gönderme hatası:", {
+      message: err?.message,
+      code: err?.code,
+      responseCode: err?.responseCode,
+      command: err?.command,
+    });
     return NextResponse.json(
-      { ok: false, error: "email_send_failed" },
+      {
+        ok: false,
+        error: "email_send_failed",
+        // Helpful debug without exposing secrets
+        details: {
+          message: err?.message,
+          code: err?.code,
+          responseCode: err?.responseCode,
+          command: err?.command,
+        },
+      },
       { status: 500 },
     );
   }
