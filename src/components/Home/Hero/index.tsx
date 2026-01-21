@@ -6,11 +6,10 @@ import Trans from '@/components/i18n/Trans'
 import { Icon } from '@iconify/react'
 
 const Hero = () => {
-  // TODO: Bu linkleri kendi hesaplarınla güncelle
   const socialLinks = {
-    linkedin: 'https://www.linkedin.com/',
-    instagram: 'https://www.instagram.com/',
-    email: 'mailto:me@example.com',
+    linkedin: 'https://www.linkedin.com/in/mehmet-kıvrak-41b231228/',
+    instagram: 'https://www.instagram.com/webde_dp/',
+    email: 'mailto:kivr.mehmet@gmail.com',
   }
 
   return (

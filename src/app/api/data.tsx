@@ -48,36 +48,48 @@ export const cardData = [
   export const boxData = [
     {
       src: getImgPath('/images/photo/1.jpg'),
-      alt: '2025 Yıl Sonu Sergisi',
-      title: '2025 Yıl Sonu Sergi',
-      description: 'Okulumuzun yıl sonu sergisinde Web Temelleri alanında 1.’lik elde ettim; projeyi sunarak ziyaretçilere deneyimi aktardım.',
+      alt: { tr: '2025 Yıl Sonu Sergisi', en: '2025 Year End Exhibition' },
+      title: { tr: '2025 Yıl Sonu Sergi', en: '2025 Year End Exhibition' },
+      description: { 
+        tr: 'Okulumuzun yıl sonu sergisinde Web Temelleri alanında 1.\'lik elde ettim; projeyi sunarak ziyaretçilere deneyimi aktardım.', 
+        en: 'I won 1st place in the Web Fundamentals area at our school\'s year-end exhibition; I presented the project and shared the experience with visitors.' 
+      },
       slug: "portfolio-1"
     },
     {
       src: getImgPath('/images/photo/2.jpg'),
-      alt: 'Eduft Portal Çalıştayı',
-      title: 'Eduft Portal Çalıştayı',
-      description: 'Edufy Portal Çalıştayında xrlab ekibinde görev alarak çalıştay için gelen hocalara bilgilendirmeler ve portal kullanımında yardımcı oldum.',
+      alt: { tr: 'Eduft Portal Çalıştayı', en: 'Edufy Portal Workshop' },
+      title: { tr: 'Eduft Portal Çalıştayı', en: 'Edufy Portal Workshop' },
+      description: { 
+        tr: 'Edufy Portal Çalıştayında xrlab ekibinde görev alarak çalıştay için gelen hocalara bilgilendirmeler ve portal kullanımında yardımcı oldum.', 
+        en: 'At the Edufy Portal Workshop, I worked as part of the xrlab team, providing information and assisting professors with portal usage.' 
+      },
       slug: "portfolio-2"
     },
     {
       src: getImgPath('/images/photo/3.jpg'),
-      alt: 'Yıl Sonu Sergisi Hatırası',
-      title: 'Yıl Sonu Sergisi Hatırası',
-      description: 'Yıl sonu sergisinde hocalarım, rektör yardımcısı ve sınıf arkadaşlarımla birlikte çekilmiş hatıra fotoğrafı.',
+      alt: { tr: 'Yıl Sonu Sergisi Hatırası', en: 'Year End Exhibition Souvenir' },
+      title: { tr: 'Yıl Sonu Sergisi Hatırası', en: 'Year End Exhibition Souvenir' },
+      description: { 
+        tr: 'Yıl sonu sergisinde hocalarım, rektör yardımcısı ve sınıf arkadaşlarımla birlikte çekilmiş hatıra fotoğrafı.', 
+        en: 'A souvenir photo taken with my professors, vice-rector, and classmates at the year-end exhibition.' 
+      },
       slug: "portfolio-3"
     },
     {
       src: getImgPath('/images/photo/4.jpg'),
-      alt: 'Çalışma 4',
-      title: 'Proje Çalışmaları',
-      description: 'Yaratıcı projeler ve işbirlikleri ile deneyim kazanma süreçleri.',
+      alt: { tr: 'Çalışma 4', en: 'Work 4' },
+      title: { tr: 'Proje Çalışmaları', en: 'Project Work' },
+      description: { 
+        tr: 'Yaratıcı projeler ve işbirlikleri ile deneyim kazanma süreçleri.', 
+        en: 'Experience gaining processes through creative projects and collaborations.' 
+      },
       slug: "portfolio-4"
     },
     {
       src: getImgPath('/images/work-grow/financial-image.jpg'),
-      alt: 'work-grow',
-      title: 'Financial data concept illustration',
+      alt: { tr: 'work-grow', en: 'work-grow' },
+      title: { tr: 'Financial data concept illustration', en: 'Financial data concept illustration' },
       slug: "portfolio-5"
     },
   ];

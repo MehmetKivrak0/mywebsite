@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { getImgPath } from '@/utils/imagePath'
 import Trans from '@/components/i18n/Trans'
+import AcademicReferences from '@/components/Home/AcademicReferences'
 import References from '@/components/Home/References'
 import Stakeholders from '@/components/Home/Stakeholders'
 import { GitHubRepo } from '@/types/github'
@@ -77,8 +78,11 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
   const repos = await fetchGitHubRepos()
   return (
     <>
-      <section className={`${isSpace ? '' : ''} dark:bg-darkmode pt-28 md:pt-32 pb-20`}>
+      <section className={`${isSpace ? '' : ''} bg-primary dark:bg-darkmode pt-28 md:pt-32 pb-20`}>
         <div className='container flex flex-col gap-10'>
+          <div>
+            <AcademicReferences />
+          </div>
           <div>
             <References />
           </div>
@@ -91,13 +95,13 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
               data-aos='fade-right'
               data-aos-delay='200'
               data-aos-duration='1000'>
-              <h2 className='text-secondary dark:text-white max-w-420 pb-8'>
+              <h2 className='text-white dark:text-white max-w-420 pb-8'>
                 <Trans
                   tr='Projelerimle modern ve kullanıcı odaklı web uygulamaları geliştiriyorum'
                   en='I build modern, user‑focused web applications with my projects'
                 />
               </h2>
-              <p className='text-base font-normal text-SlateBlue dark:text-darktext max-w-408'>
+              <p className='text-base font-normal text-white/90 dark:text-darktext max-w-408'>
                 <Trans
                   tr='Gerçek problemleri çözen, performanslı ve ölçeklenebilir web projeleri üzerinde çalışıyorum. Aşağıda GitHub üzerindeki bazı çalışmalarımı görebilirsin.'
                   en='I work on performant and scalable web projects that solve real problems. Below you can see some of my work from GitHub.'
@@ -131,7 +135,7 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
                     </defs>
                   </svg>
 
-                  <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
+                  <span className='text-base font-normal text-white/90 dark:text-darktext'>
                     <Trans tr='Modern teknolojiler' en='Modern technologies' />
                   </span>
                 </div>
@@ -162,7 +166,7 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
                     </defs>
                   </svg>
 
-                  <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
+                  <span className='text-base font-normal text-white/90 dark:text-darktext'>
                     <Trans tr='Gerçek dünyadan problemler' en='Real‑world problems' />
                   </span>
                 </div>
@@ -193,7 +197,7 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
                     </defs>
                   </svg>
 
-                  <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
+                  <span className='text-base font-normal text-white/90 dark:text-darktext'>
                     <Trans tr='Sürekli gelişen portföy' en='Continuously growing portfolio' />
                   </span>
                 </div>
@@ -214,7 +218,7 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
                     data-aos='fade-up'
                     data-aos-delay={`${(index + 1) * 200}`}
                     data-aos-duration='1000'>
-                    <div className='shadow-light_shadwo dark:shadow-darkmd p-8 rounded-14 group-hover:cursor-pointer'>
+                    <div className='bg-white dark:bg-darklight shadow-light_shadwo dark:shadow-darkmd p-8 rounded-14 group-hover:cursor-pointer border border-BorderLine dark:border-dark_border'>
                       <i
                         className='bg-no-repeat w-10 h-10 inline-block'
                         style={{ backgroundImage: `url(${getLanguageIcon(repo.language)})` }}></i>
@@ -228,7 +232,7 @@ const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
                         href={repo.html_url}
                         target='_blank'
                         rel='noopener noreferrer'
-                        className='text-primary text-base font-normal flex items-center gap-3 transition-all group'>
+                        className='text-primary dark:text-lightPrimary text-base font-normal flex items-center gap-3 transition-all group'>
                         <Trans tr='GitHub' en='GitHub' />
                         <i
                           className='bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1'

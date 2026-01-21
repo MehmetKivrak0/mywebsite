@@ -5,12 +5,14 @@ import HeroSub from "@/components/SharedComponent/HeroSub";
 import Trans from "@/components/i18n/Trans";
 import { getImgPath } from "@/utils/imagePath";
 import Image from "next/image";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 interface PortfolioContentProps {
   slug: string;
 }
 
 export default function PortfolioContent({ slug }: PortfolioContentProps) {
+  const { lang } = useLanguage()
   const item = boxData.find((item) => item.slug === slug);
 
   return (
@@ -20,17 +22,16 @@ export default function PortfolioContent({ slug }: PortfolioContentProps) {
         <div className="container">
           <div className="md:pb-20 pb-10">
             <h2 className="sm:text-5xl text-3xl font-bold text-secondary dark:text-white pb-5">
-              {item?.title}
+              {item ? (typeof item.title === 'string' ? item.title : (lang === 'tr' ? item.title.tr : item.title.en)) : ''}
             </h2>
             <p className="font-normal text-SlateBlue dark:text-darktext text-xl max-w-634">
-              We are a dedicated team of passionate product managers, full stack
-              developers, UX/UI designers, QA engineers and marketing.
+              {item?.description ? (typeof item.description === 'string' ? item.description : (lang === 'tr' ? item.description.tr : item.description.en)) : ''}
             </p>
           </div>
           <div className="md:pb-20 pb-10">
             <img
               src={item?.src}
-              alt="Contact"
+              alt={item ? (typeof item.alt === 'string' ? item.alt : (lang === 'tr' ? item.alt.tr : item.alt.en)) : ''}
               width={1100}
               height={0}
               style={{ width: "100%", height: "auto" }}

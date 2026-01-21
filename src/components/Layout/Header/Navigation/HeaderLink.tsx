@@ -31,14 +31,18 @@ const HeaderLink: React.FC<{ item: HeaderItem; lang: LanguageCode }> = ({ item, 
           href={item.href}
           target="_blank"
           rel="noreferrer"
-          className=" py-3 text-base flex font-normal hover:text-LightApricot dark:hover:text-LightApricot dark:hover:text-primary text-white dark:text-white "
+          className="px-3 py-2 rounded-lg text-base flex font-normal text-white hover:text-LightApricot dark:text-white dark:hover:text-LightApricot hover:bg-white/10 transition-colors"
         >
           {label}
         </a>
       ) : (
         <Link
           href={item.href}
-          className={` py-3 text-base flex font-normal hover:text-LightApricot dark:hover:text-LightApricot dark:hover:text-primary ${isActive ? 'text-LightApricot dark:text-LightApricot' : ' text-white dark:text-white '} `}
+          className={`px-3 py-2 rounded-lg text-base flex font-normal transition-colors ${
+            isActive
+              ? "text-LightApricot dark:text-LightApricot bg-white/10"
+              : "text-white dark:text-white hover:text-LightApricot dark:hover:text-LightApricot hover:bg-white/10/5"
+          }`}
         >
           {label}
           {item.submenu && (

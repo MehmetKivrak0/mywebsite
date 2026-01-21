@@ -23,7 +23,7 @@ const FaqQuestion = () => {
               <h2 className='text-secondary dark:text-white text-center'>
                 <Trans tr='Sık Sorulan Sorular' en='Frequently asked questions' />
               </h2>
-              <div className='overflow-hidden relative z-10 lg:w-770 w-full m-auto bg-white rounded-2xl shadow-light-shadwo dark:shadow-none dark:border dark:border-solid dark:border-dark_border'>
+              <div className='overflow-hidden relative z-10 lg:w-770 w-full m-auto bg-white dark:bg-darklight rounded-2xl shadow-light-shadwo dark:shadow-darkmd dark:border dark:border-solid dark:border-dark_border'>
                 {accordionData.map((item, index) => (
                   <div
                     key={index}

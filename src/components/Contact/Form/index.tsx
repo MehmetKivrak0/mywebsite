@@ -1,138 +1,206 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
-import { getImgPath } from '@/utils/imagePath'
-import Trans from '@/components/i18n/Trans'
+/* eslint-disable @next/next/no-img-element */
+"use client";
+
+import React, { useMemo, useState } from "react";
+import Trans from "@/components/i18n/Trans";
+import { validateEmail } from "@/utils/validateEmail";
 
 const ContactForm = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [subject, setSubject] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState<
+    "idle" | "submitting" | "success" | "error"
+  >("idle");
+  const [errorText, setErrorText] = useState<string>("");
+
+  const isEmailValid = useMemo(() => {
+    if (!email.trim()) return true;
+    return Boolean(validateEmail(email.trim()));
+  }, [email]);
+
+  const canSubmit =
+    status !== "submitting" &&
+    name.trim().length > 0 &&
+    email.trim().length > 0 &&
+    Boolean(validateEmail(email.trim())) &&
+    message.trim().length > 0;
+
+  const onSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setErrorText("");
+
+    if (!canSubmit) {
+      setStatus("error");
+      setErrorText("Lütfen gerekli alanları doğru şekilde doldurun.");
+      return;
+    }
+
+    setStatus("submitting");
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: name.trim(),
+          email: email.trim(),
+          subject: subject.trim(),
+          message: message.trim(),
+        }),
+      });
+
+      if (!res.ok) {
+        setStatus("error");
+        setErrorText("Mesaj gönderilemedi. Lütfen tekrar deneyin.");
+        return;
+      }
+
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setSubject("");
+      setMessage("");
+    } catch {
+      setStatus("error");
+      setErrorText("Bir hata oluştu. Lütfen tekrar deneyin.");
+    }
+  };
+
   return (
     <>
-      <section className='dark:bg-darkmode pt-0 md:pb-24 pb-10'>
-        <div className='container'>
-          <div className='grid lg:grid-cols-12 grid-cols-1 md:gap-20 gap-10'>
-            <div className='md:col-span-6 col-span-1'>
-              <h2 className='max-w-277 sm:text-[40px] sm:leading-[3rem] text-[28px] leading-[2.25rem] font-bold text-secondary dark:text-white mb-9'>
-                <Trans tr='Online Danışmanlık Al' en='Get Online Consultation' />
-              </h2>
-              <form className='flex flex-wrap w-full m-auto justify-between'>
-                <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='first-name'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='Ad*' en='First Name*' />
-                    </label>
-                    <input
-                      id='first-name'
-                      className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
-                      type='text'
-                    />
-                  </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='last-name'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='Soyad*' en='Last Name*' />
-                    </label>
-                    <input
-                      id='last-name'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
-                      type='text'
-                    />
-                  </div>
-                </div>
-                <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='email'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='E-posta*' en='Email address*' />
-                    </label>
-                    <input
-                      id='email'
-                      type='email'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:border-dark_border border-solid dark:text-white  dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary focus:border-solid focus:outline-0'
-                    />
-                  </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='Specialist'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='Uzmanlık*' en='Specialist*' />
-                    </label>
-                    <select
-                      id='Specialist'
-                      className='w-full text-base px-4 py-2.5 rounded-lg border-BorderLine dark:text-white border-solid dark:bg-darkmode border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'>
-                      <option value=''>
-                        <Trans tr='Uzman seç' en='Choose a specialist' />
-                      </option>
-                      <option value='Baking &amp; Pastry'>
-                        <Trans tr='Pasta / Tatlı' en='Baking & Pastry' />
-                      </option>
-                      <option value='Exotic Cuisine'>
-                        <Trans tr='Dünya Mutfağı' en='Exotic Cuisine' />
-                      </option>
-                      <option value='French Desserts'>
-                        <Trans tr='Fransız Tatlıları' en='French Desserts' />
-                      </option>
-                      <option value='Seafood &amp; Wine'>
-                        <Trans tr='Deniz Ürünleri & Şarap' en='Seafood & Wine' />
-                      </option>
-                    </select>
-                  </div>
-                </div>
-                <div className='sm:flex gap-3 w-full'>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='date'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='Tarih*' en='Date*' />
-                    </label>
-                    <input
-                      id='date'
-                      className='w-full text-base px-4 rounded-lg  py-2.5 outline-hidden dark:text-white dark:bg-darkmode border-BorderLine border-solid border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'
-                      type='date'
-                    />
-                  </div>
-                  <div className='mx-0 my-2.5 flex-1'>
-                    <label
-                      htmlFor='time'
-                      className='pb-3 inline-block text-base text-SlateBlue dark:text-darktext'>
-                      <Trans tr='Saat*' en='Time*' />
-                    </label>
-                    <input
-                      id='time'
-                      className='w-full text-base px-4 rounded-lg py-2.5 border-BorderLine outline-hidden dark:text-white dark:bg-darkmode border-solid border transition-all duration-500 focus:border-primary dark:focus:border-primary dark:border-dark_border focus:border-solid focus:outline-0'
-                      type='time'
-                    />
-                  </div>
-                </div>
-                <div className='mx-0 my-2.5 w-full'>
-                  <Link
-                    href='#'
-                    className='bg-primary rounded-lg text-white py-4 px-8 mt-4 inline-block hover:bg-blue-700'
-                    type='submit'>
-                    <Trans tr='Randevu Oluştur' en='Make an appointment' />
-                  </Link>
-                </div>
-              </form>
-            </div>
-            <div className='sm:col-span-6 col-span-1'>
-              <Image
-                src={getImgPath('/images/contact/contact.jpg')}
-                alt='Contact'
-                width={0}
-                height={0}
-                quality={100}
-                sizes='100vh'
-                className='bg-no-repeat bg-contain rounded-lg w-526 h-650'
+      <section className="bg-AliceBlue dark:bg-darkmode md:py-24 py-12">
+        <div className="container px-4 sm:px-6 lg:px-8">
+          <div className="max-w-4xl mx-auto">
+            <h2 className="sm:text-[40px] sm:leading-[3rem] text-[28px] leading-[2.25rem] font-bold text-secondary dark:text-white mb-3">
+              <Trans tr="Bana Mesaj Gönder" en="Send me a message" />
+            </h2>
+            <p className="text-SlateBlue dark:text-white/90 text-lg mb-10 leading-relaxed max-w-2xl">
+              <Trans
+                tr="Formu doldurup mesajını gönderebilirsin. En kısa sürede dönüş yapacağım."
+                en="Fill out the form and send your message. I'll get back to you as soon as possible."
               />
+            </p>
+
+            <div className="rounded-2xl bg-white dark:bg-darklight border border-BorderLine dark:border-dark_border shadow-lg shadow-light-shadwo dark:shadow-darkmd p-6 sm:p-8 md:p-10">
+              <form onSubmit={onSubmit} className="grid grid-cols-1 gap-6">
+                <div className="grid sm:grid-cols-2 grid-cols-1 gap-6">
+                  <div className="space-y-2">
+                  <label
+                    htmlFor="name"
+                    className="pb-2 inline-block text-base text-secondary dark:text-white"
+                  >
+                    <Trans tr="Ad Soyad*" en="Full name*" />
+                  </label>
+                  <input
+                    id="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    className="w-full text-base px-5 py-3.5 rounded-xl border border-BorderLine dark:border-dark_border text-secondary dark:text-white bg-white dark:bg-darkmode/40 transition-all duration-300 focus:outline-0 focus:border-primary dark:focus:border-primary focus:ring-2 focus:ring-primary/20"
+                    type="text"
+                    autoComplete="name"
+                    required
+                  />
+                  </div>
+
+                  <div className="space-y-2">
+                  <label
+                    htmlFor="email"
+                    className="pb-2 inline-block text-base text-secondary dark:text-white"
+                  >
+                    <Trans tr="E-posta*" en="Email*" />
+                  </label>
+                  <input
+                    id="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className={`w-full text-base px-5 py-3.5 rounded-xl border text-secondary dark:text-white bg-white dark:bg-darkmode/40 transition-all duration-300 focus:outline-0 focus:ring-2 ${
+                      isEmailValid
+                        ? "border-BorderLine dark:border-dark_border focus:border-primary dark:focus:border-primary focus:ring-primary/20"
+                        : "border-red-400 focus:border-red-400 dark:border-red-500 focus:ring-red-400/20"
+                    }`}
+                    type="email"
+                    autoComplete="email"
+                    required
+                  />
+                  {!isEmailValid && (
+                    <p className="text-sm text-red-500 mt-2">
+                      <Trans tr="Geçerli bir e-posta girin." en="Enter a valid email." />
+                    </p>
+                  )}
+                  </div>
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="subject"
+                  className="pb-2 inline-block text-base text-secondary dark:text-white"
+                >
+                  <Trans tr="Konu" en="Subject" />
+                </label>
+                <input
+                  id="subject"
+                  value={subject}
+                  onChange={(e) => setSubject(e.target.value)}
+                  className="w-full text-base px-5 py-3.5 rounded-xl border border-BorderLine dark:border-dark_border text-secondary dark:text-white bg-white dark:bg-darkmode/40 transition-all duration-300 focus:outline-0 focus:border-primary dark:focus:border-primary focus:ring-2 focus:ring-primary/20"
+                  type="text"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="message"
+                  className="pb-2 inline-block text-base text-secondary dark:text-white"
+                >
+                  <Trans tr="Mesaj*" en="Message*" />
+                </label>
+                <textarea
+                  id="message"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  className="w-full text-base px-5 py-3.5 rounded-xl border border-BorderLine dark:border-dark_border text-secondary dark:text-white bg-white dark:bg-darkmode/40 transition-all duration-300 focus:outline-0 focus:border-primary dark:focus:border-primary focus:ring-2 focus:ring-primary/20 min-h-[180px] resize-y"
+                  required
+                />
+              </div>
+
+              {status === "success" && (
+                <div className="rounded-lg border border-green-400/50 bg-green-500/10 px-4 py-3 text-green-600 dark:text-green-400">
+                  <Trans tr="Mesajın gönderildi. Teşekkürler!" en="Your message has been sent. Thank you!" />
+                </div>
+              )}
+
+              {status === "error" && (
+                <div className="rounded-lg border border-red-400/50 bg-red-500/10 px-4 py-3 text-red-600 dark:text-red-400">
+                  {errorText || (
+                    <Trans tr="Mesaj gönderilemedi." en="Message could not be sent." />
+                  )}
+                </div>
+              )}
+
+              <div className="pt-2">
+                <button
+                  type="submit"
+                  disabled={!canSubmit}
+                  className={`rounded-xl text-white py-4 px-10 inline-flex items-center justify-center transition-all duration-300 font-medium shadow-lg ${
+                    canSubmit
+                      ? "bg-primary hover:bg-blue-700 hover:shadow-xl hover:scale-[1.02] active:scale-[0.98]"
+                      : "bg-primary/50 cursor-not-allowed"
+                  }`}
+                >
+                  {status === "submitting" ? (
+                    <Trans tr="Gönderiliyor..." en="Sending..." />
+                  ) : (
+                    <Trans tr="Mesaj Gönder" en="Send Message" />
+                  )}
+                </button>
+              </div>
+            </form>
             </div>
           </div>
         </div>
       </section>
     </>
-  )
-}
+  );
+};
 
 export default ContactForm

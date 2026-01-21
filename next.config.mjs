@@ -1,8 +1,11 @@
 /** @type {import('next').NextConfig} */
-const basePath = process.env.NODE_ENV === 'production' ? '/sustainable-nextjs' : '';
+const isProd = process.env.NODE_ENV === "production";
+const basePath = isProd ? "/sustainable-nextjs" : "";
 
 const nextConfig = {
-  output: 'export',
+  // `output: 'export'` breaks some dev-time manifests in Next 15.x.
+  // Keep static export for production builds only.
+  ...(isProd ? { output: "export" } : {}),
   basePath,
   assetPrefix: basePath,
   images: {
@@ -15,6 +18,6 @@ const nextConfig = {
   env: {
     NEXT_PUBLIC_BASE_PATH: basePath,
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

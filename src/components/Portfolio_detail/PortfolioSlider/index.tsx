@@ -7,8 +7,10 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import Trans from "@/components/i18n/Trans";
+import { useLanguage } from "@/app/context/LanguageContext";
 
 const PortfolioSlider = () => {
+  const { lang } = useLanguage()
   var settings = {
     dots: true,
     autoplay: false,
@@ -55,7 +57,7 @@ const PortfolioSlider = () => {
             <div className="relative rounded-14 overflow-hidden">
               <Image
                 src={item.src}
-                alt={item.alt}
+                alt={typeof item.alt === 'string' ? item.alt : (lang === 'tr' ? item.alt.tr : item.alt.en)}
                 width={0}
                 height={0}
                 quality={100}
@@ -65,7 +67,7 @@ const PortfolioSlider = () => {
               />
               <div className="absolute sm:top-10 top-6 sm:left-10 left-6 group">
                 <h5 className="sm:text-[26px] leading-[2.11rem] text-20 text-white pb-6 font-bold max-w-356">
-                  {item.title}
+                  {typeof item.title === 'string' ? item.title : (lang === 'tr' ? item.title.tr : item.title.en)}
                 </h5>
                 <Link
                   href={`/portfolio/${item.slug}`}

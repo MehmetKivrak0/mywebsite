@@ -15,7 +15,7 @@ const applications = [
 
 export default function ApplicationsCarousel() {
   return (
-    <div className='rounded-2xl border border-white/10 bg-gradient-to-br from-white/8 via-white/4 to-transparent px-3 py-3 sm:px-5 sm:py-4 backdrop-blur-xl shadow-[0_18px_60px_rgba(0,0,0,0.35)] min-w-0 overflow-hidden w-full'>
+    <div className='rounded-2xl border border-white/10 dark:border-dark_border bg-gradient-to-br from-white/8 via-white/4 to-transparent dark:from-darklight dark:via-darkmode dark:to-darkmode px-3 py-3 sm:px-5 sm:py-4 backdrop-blur-xl shadow-[0_18px_60px_rgba(0,0,0,0.35)] dark:shadow-darkmd min-w-0 overflow-hidden w-full'>
       <div className='flex flex-col gap-2 mb-3'>
         <div>
           <h3 className='text-base sm:text-lg font-semibold text-white'>
@@ -33,7 +33,7 @@ export default function ApplicationsCarousel() {
         {applications.map((app, idx) => (
           <div
             key={`${app.name}-${idx}`}
-            className='app-card group relative isolate overflow-hidden flex items-center gap-2 shrink-0 rounded-lg border border-white/12 bg-white/8 px-3 py-2 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)] transition-transform duration-200 hover:-translate-y-[3px] hover:border-LightApricot/60 hover:shadow-[0_14px_38px_rgba(0,0,0,0.32)]'
+            className='app-card group relative isolate overflow-hidden flex items-center gap-2 shrink-0 rounded-lg border border-white/12 dark:border-dark_border bg-white/8 dark:bg-darklight px-3 py-2 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)] dark:shadow-darkmd transition-transform duration-200 hover:-translate-y-[3px] hover:border-LightApricot/60 dark:hover:border-primary/60 hover:shadow-[0_14px_38px_rgba(0,0,0,0.32)]'
             style={{ animationDelay: `${idx * 0.08}s` }}
             data-aos='zoom-in'
             data-aos-duration='520'

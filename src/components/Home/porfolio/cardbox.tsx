@@ -1,11 +1,14 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { boxData } from '../../../app/api/data'
 import { getImgPath } from '@/utils/imagePath'
 import Trans from '@/components/i18n/Trans'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 const CardBox = () => {
+  const { lang } = useLanguage()
   return (
     <>
       <section className='bg-AliceBlue dark:bg-darkmode py-20'>
@@ -53,7 +56,7 @@ const CardBox = () => {
                       <div className='relative rounded-14 overflow-hidden'>
                         <Image
                           src={item.src}
-                          alt={item.alt}
+                          alt={typeof item.alt === 'string' ? item.alt : (lang === 'tr' ? item.alt.tr : item.alt.en)}
                           width={0}
                           height={0}
                           quality={100}
@@ -62,7 +65,7 @@ const CardBox = () => {
                         />
                         <div className='absolute sm:top-10 top-6 sm:left-10 left-6 group'>
                           <h5 className='sm:text-[26px] leading-[2.11rem] text-20 text-white pb-6 font-bold max-w-356'>
-                            {item.title}
+                            {typeof item.title === 'string' ? item.title : (lang === 'tr' ? item.title.tr : item.title.en)}
                           </h5>
                           <Link
                             href={`/portfolio/${item.slug}`}
@@ -91,7 +94,7 @@ const CardBox = () => {
                       <div className='relative rounded-14 overflow-hidden'>
                         <Image
                           src={item.src}
-                          alt={item.alt}
+                          alt={typeof item.alt === 'string' ? item.alt : (lang === 'tr' ? item.alt.tr : item.alt.en)}
                           width={0}
                           height={0}
                           quality={100}
@@ -100,7 +103,7 @@ const CardBox = () => {
                         />
                         <div className='absolute sm:top-10 top-6 sm:left-10 left-6 group'>
                           <h5 className='sm:text-[26px] leading-[2.11rem] text-20 text-white pb-6 font-bold max-w-356'>
-                            {item.title}
+                            {typeof item.title === 'string' ? item.title : (lang === 'tr' ? item.title.tr : item.title.en)}
                           </h5>
                           <Link
                             href={`/portfolio/${item.slug}`}

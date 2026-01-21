@@ -6,7 +6,7 @@ import Trans from "@/components/i18n/Trans";
 const ContactInfo = () => {
   return (
     <>
-      <section className="dark:bg-darkmode py-20">
+      <section className="bg-AliceBlue dark:bg-darkmode py-20">
         <div className="container">
           <div className="flex md:flex-row flex-col items-stretch justify-start sm:gap-28 gap-8">
             <div className="flex sm:flex-row flex-col items-start sm:gap-8 gap-4">

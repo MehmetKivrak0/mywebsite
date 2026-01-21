@@ -1,11 +1,14 @@
+'use client'
 import Link from 'next/link'
 import React from 'react'
 import Image from 'next/image'
 import { boxData } from '../../../app/api/data'
 import { getImgPath } from '@/utils/imagePath'
 import Trans from '@/components/i18n/Trans'
+import { useLanguage } from '@/app/context/LanguageContext'
 
 const WorkGrow = () => {
+  const { lang } = useLanguage()
   return (
     <>
       <section className='bg-AliceBlue dark:bg-darklight py-20'>
@@ -40,7 +43,7 @@ const WorkGrow = () => {
                 <div className='relative rounded-14 overflow-hidden'>
                   <Image
                     src={item.src}
-                    alt={item.alt}
+                    alt={typeof item.alt === 'string' ? item.alt : (lang === 'tr' ? item.alt.tr : item.alt.en)}
                     width={0}
                     height={0}
                     quality={100}
@@ -52,11 +55,11 @@ const WorkGrow = () => {
                   <Link
                     href={`/portfolio/${item.slug}`}
                     className='sm:text-[22px] text-[18px] leading-[1.4] text-secondary dark:text-white font-semibold hover:opacity-80 transition-opacity'>
-                    {item.title}
+                    {typeof item.title === 'string' ? item.title : (lang === 'tr' ? item.title.tr : item.title.en)}
                   </Link>
                   {item.description && (
                     <p className='text-SlateBlue dark:text-slate-200 text-sm sm:text-base leading-relaxed'>
-                      {item.description}
+                      {typeof item.description === 'string' ? item.description : (lang === 'tr' ? item.description.tr : item.description.en)}
                     </p>
                   )}
                 </div>
