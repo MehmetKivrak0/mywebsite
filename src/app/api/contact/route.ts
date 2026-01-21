@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import nodemailer from "nodemailer";
 
+// Ensure this route always runs on the Node.js runtime (not Edge),
+// so nodemailer and TCP sockets work in production (e.g., Vercel).
+export const runtime = "nodejs";
+
 type ContactPayload = {
   name?: string;
   email?: string;
@@ -32,7 +36,13 @@ export async function POST(req: Request) {
     const smtpPass = process.env.SMTP_PASS;
 
     if (!contactEmail || !smtpHost || !smtpPort || !smtpUser || !smtpPass) {
-      console.error("[contact] E-posta ayarları eksik. Lütfen .env dosyasını kontrol edin.");
+      console.error("[contact] E-posta ayarları eksik. Lütfen .env dosyasını kontrol edin.", {
+        hasContactEmail: Boolean(contactEmail),
+        hasSmtpHost: Boolean(smtpHost),
+        hasSmtpPort: Boolean(smtpPort),
+        hasSmtpUser: Boolean(smtpUser),
+        hasSmtpPass: Boolean(smtpPass),
+      });
       return NextResponse.json(
         { ok: false, error: "email_config_missing" },
         { status: 500 },
