@@ -1,17 +1,89 @@
 import React from 'react'
 import Link from 'next/link'
-import { cardData } from '../../../app/api/data'
 import { getImgPath } from '@/utils/imagePath'
 import Trans from '@/components/i18n/Trans'
 import References from '@/components/Home/References'
+import Stakeholders from '@/components/Home/Stakeholders'
+import { GitHubRepo } from '@/types/github'
+import TechnologiesCarousel from './TechnologiesCarousel'
+import ApplicationsCarousel from './ApplicationsCarousel'
+import ProductivityToolsCarousel from './ProductivityToolsCarousel'
+import LearningResourcesCarousel from './LearningResourcesCarousel'
 
-const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
+// GitHub kullanıcı adını buradan değiştirebilirsin
+// Veya .env.local dosyasına GITHUB_USERNAME=MehmetKivrak0 şeklinde ekleyebilirsin
+const GITHUB_USERNAME = process.env.GITHUB_USERNAME || 'MehmetKivrak0'
+
+async function fetchGitHubRepos(): Promise<GitHubRepo[]> {
+  try {
+    const response = await fetch(
+      `https://api.github.com/users/${GITHUB_USERNAME}/repos?sort=updated&per_page=4&type=all`,
+      {
+        next: { revalidate: 3600 }, // 1 saatte bir yenile (3600 saniye)
+        headers: {
+          'Accept': 'application/vnd.github.v3+json',
+        },
+      }
+    )
+
+    if (!response.ok) {
+      console.error('GitHub API hatası:', response.status, response.statusText)
+      return []
+    }
+
+    const repos: GitHubRepo[] = await response.json()
+
+    // Sadece public reposları filtrele ve önemli alanları döndür
+    return repos
+      .filter((repo) => !repo.name.includes('test') && !repo.name.includes('demo')) // İsteğe bağlı: test/demo reposlarını filtrele
+      .map((repo) => ({
+        id: repo.id,
+        name: repo.name,
+        full_name: repo.full_name,
+        description: repo.description,
+        html_url: repo.html_url,
+        language: repo.language,
+        stargazers_count: repo.stargazers_count,
+        forks_count: repo.forks_count,
+        updated_at: repo.updated_at,
+        created_at: repo.created_at,
+        topics: repo.topics || [],
+        homepage: repo.homepage,
+      }))
+      .slice(0, 4) // İlk 4 projeyi al (2x2 grid için)
+  } catch (error) {
+    console.error('GitHub repos çekilirken hata:', error)
+    return []
+  }
+}
+
+// Dil bazlı icon seçimi için helper fonksiyon
+function getLanguageIcon(language: string | null): string {
+  if (!language) return getImgPath('/images/build-amazing/coded.svg')
+  
+  const languageIcons: Record<string, string> = {
+    'TypeScript': getImgPath('/images/build-amazing/coded.svg'),
+    'JavaScript': getImgPath('/images/build-amazing/coded.svg'),
+    'Python': getImgPath('/images/build-amazing/amazing.svg'),
+    'Java': getImgPath('/images/build-amazing/beautiful-design.svg'),
+    'React': getImgPath('/images/build-amazing/coded.svg'),
+    'Next.js': getImgPath('/images/build-amazing/coded.svg'),
+  }
+  
+  return languageIcons[language] || getImgPath('/images/build-amazing/coded.svg')
+}
+
+const BuildAmazing = async ({ isSpace }: { isSpace: boolean }) => {
+  const repos = await fetchGitHubRepos()
   return (
     <>
       <section className={`${isSpace ? '' : ''} dark:bg-darkmode pt-28 md:pt-32 pb-20`}>
-        <div className='container'>
-          <div className='pb-10'>
+        <div className='container flex flex-col gap-10'>
+          <div>
             <References />
+          </div>
+          <div>
+            <Stakeholders />
           </div>
           <div className='grid lg:grid-cols-2 grid-cols-1 items-center'>
             <div
@@ -21,14 +93,14 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
               data-aos-duration='1000'>
               <h2 className='text-secondary dark:text-white max-w-420 pb-8'>
                 <Trans
-                  tr='Sustainable ile kolayca harika web siteleri ve landing page’ler oluştur'
-                  en='Build amazing websites and landing pages with ease using Sustainable'
+                  tr='Projelerimle modern ve kullanıcı odaklı web uygulamaları geliştiriyorum'
+                  en='I build modern, user‑focused web applications with my projects'
                 />
               </h2>
               <p className='text-base font-normal text-SlateBlue dark:text-darktext max-w-408'>
                 <Trans
-                  tr='Hızlıca başlayın, özelleştirin ve yayına alın.'
-                  en='Lorem ipsum dolor sit amet, consectetur adipiscing elited do eiusmod tempor incididunt.'
+                  tr='Gerçek problemleri çözen, performanslı ve ölçeklenebilir web projeleri üzerinde çalışıyorum. Aşağıda GitHub üzerindeki bazı çalışmalarımı görebilirsin.'
+                  en='I work on performant and scalable web projects that solve real problems. Below you can see some of my work from GitHub.'
                 />
               </p>
               <div className='pt-6 flex flex-col gap-y-5'>
@@ -60,7 +132,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    <Trans tr='Kolay sürükle-bırak' en='Easy Drag & Drop' />
+                    <Trans tr='Modern teknolojiler' en='Modern technologies' />
                   </span>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -91,7 +163,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    <Trans tr='Elementor ile güçlendirildi' en='Powered by Elementor' />
+                    <Trans tr='Gerçek dünyadan problemler' en='Real‑world problems' />
                   </span>
                 </div>
                 <div className='flex items-center gap-2'>
@@ -122,7 +194,7 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
                   </svg>
 
                   <span className='text-base font-normal text-SlateBlue dark:text-darktext'>
-                    <Trans tr='Yeni bölümler oluştur' en='Create new sections' />
+                    <Trans tr='Sürekli gelişen portföy' en='Continuously growing portfolio' />
                   </span>
                 </div>
               </div>
@@ -134,36 +206,57 @@ const BuildAmazing = ({ isSpace }: { isSpace: boolean }) => {
               </div>
             </div>
             <div className='grid md:grid-cols-2 grid-cols-1 gap-7'>
-              {cardData.map((card, index) => (
-                <div
-                  key={index}
-                  className='group'
-                  data-aos='fade-up'
-                  data-aos-delay={`${(index + 1) * 200}`}
-                  data-aos-duration='1000'>
-                  <div className='shadow-light_shadwo dark:shadow-darkmd p-8 rounded-14 group-hover:cursor-pointer'>
-                    <i
-                      className='bg-no-repeat w-10 h-10 inline-block'
-                      style={{ backgroundImage: `url(${card.iconUrl})` }}></i>
-                    <h6 className='text-[22px] leading-[2rem] font-bold text-secondary dark:text-white max-w-200 pt-3'>
-                      {card.title}
-                    </h6>
-                    <p className='text-14 text-SlateBlue dark:text-darktext font-normal max-w-200 pt-3 pb-7'>
-                      {card.description}
-                    </p>
-                    <Link
-                      href={card.link}
-                      className='text-primary text-base font-normal flex items-center gap-3 transition-all group'>
-                      <Trans tr='Başla' en='Get Started' />
+              {repos.length > 0 ? (
+                repos.map((repo, index) => (
+                  <div
+                    key={repo.id}
+                    className='group'
+                    data-aos='fade-up'
+                    data-aos-delay={`${(index + 1) * 200}`}
+                    data-aos-duration='1000'>
+                    <div className='shadow-light_shadwo dark:shadow-darkmd p-8 rounded-14 group-hover:cursor-pointer'>
                       <i
-                        className='bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1'
-                        style={{
-                          backgroundImage: `url(${getImgPath('/images/build-amazing/right-arrow-blue.svg')})`,
-                        }}></i>
-                    </Link>
+                        className='bg-no-repeat w-10 h-10 inline-block'
+                        style={{ backgroundImage: `url(${getLanguageIcon(repo.language)})` }}></i>
+                      <h6 className='text-[22px] leading-[2rem] font-bold text-secondary dark:text-white max-w-200 pt-3'>
+                        {repo.name}
+                      </h6>
+                      <p className='text-14 text-SlateBlue dark:text-darktext font-normal max-w-200 pt-3 pb-7 line-clamp-2'>
+                        {repo.description || 'No description available'}
+                      </p>
+                      <Link
+                        href={repo.html_url}
+                        target='_blank'
+                        rel='noopener noreferrer'
+                        className='text-primary text-base font-normal flex items-center gap-3 transition-all group'>
+                        <Trans tr='GitHub' en='GitHub' />
+                        <i
+                          className='bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1'
+                          style={{
+                            backgroundImage: `url(${getImgPath('/images/build-amazing/right-arrow-blue.svg')})`,
+                          }}></i>
+                      </Link>
+                    </div>
                   </div>
+                ))
+              ) : (
+                // Fallback: Eğer repo yoksa veya yüklenemediyse boş state göster
+                <div className='col-span-2 text-center py-8'>
+                  <p className='text-SlateBlue dark:text-darktext'>
+                    <Trans tr='Projeler yükleniyor...' en='Loading projects...' />
+                  </p>
                 </div>
-              ))}
+              )}
+            </div>
+          </div>
+
+          {/* 4 kart: üstte 2, altta 2 - sayfanın ortasında */}
+          <div className='mt-12 flex justify-center'>
+            <div className='grid gap-4 md:gap-2 lg:gap-8 grid-cols-1 sm:grid-cols-2 w-full max-w-5xl'>
+              <TechnologiesCarousel />
+              <ApplicationsCarousel />
+              <ProductivityToolsCarousel />
+              <LearningResourcesCarousel />
             </div>
           </div>
         </div>

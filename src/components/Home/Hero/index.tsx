@@ -32,12 +32,12 @@ const Hero = () => {
                   Mehmet Kıvrak
                 </h1>
                 <p className='mt-4 text-white/90 text-lg sm:text-xl font-semibold'>
-                  <Trans tr='Jr. FullStack Developer' en='Jr. FullStack Developer ' />
+                  <Trans tr='Projelerimle modern web uygulamaları geliştiriyorum' en='I build modern web applications with my projects' />
                 </p>
                 <p className='mt-6 text-white/90 text-base sm:text-lg leading-relaxed max-w-2xl'>
                   <Trans
-                    tr='Okuldan mezun olmuş, yaklaşık 1 yıldır web geliştirme alanında aktif olarak çalışan bir Junior Frontend Developer’ım. Kullanıcı odaklı, performanslı ve güvenli web arayüzleri geliştirmeye odaklanıyor; modern teknolojileri yakından takip ederek her gün kendimi geliştirmeye devam ediyorum.'
-                    en='I am a Junior Frontend Developer with a year of hands-on experience in web development. I focus on building user-centric, performant, and secure web interfaces, and I continuously improve my skills by keeping up with modern technologies every day.'
+                    tr='GitHub üzerindeki projelerimle; frontend, backend ve tam stack geliştirme deneyimimi gösteriyorum. Gerçek problemleri çözen, performanslı ve ölçeklenebilir web uygulamaları üretmeye odaklanıyorum.'
+                    en='Through my GitHub projects, I showcase my frontend, backend and full‑stack experience. I focus on building performant and scalable web applications that solve real problems.'
                   />
                 </p>
 

@@ -47,27 +47,31 @@ export const cardData = [
 
   export const boxData = [
     {
-      src: getImgPath('/images/work-grow/mobile-application.jpg'),
-      alt: 'work-grow',
-      title: 'Apex Mobile Application Development',
+      src: getImgPath('/images/photo/1.jpg'),
+      alt: '2025 Yıl Sonu Sergisi',
+      title: '2025 Yıl Sonu Sergi',
+      description: 'Okulumuzun yıl sonu sergisinde Web Temelleri alanında 1.’lik elde ettim; projeyi sunarak ziyaretçilere deneyimi aktardım.',
       slug: "portfolio-1"
     },
     {
-      src: getImgPath('/images/work-grow/weby-dashboard-design.jpg'),
-      alt: 'work-grow',
-      title: 'Weby Dashboard Design',
+      src: getImgPath('/images/photo/2.jpg'),
+      alt: 'Eduft Portal Çalıştayı',
+      title: 'Eduft Portal Çalıştayı',
+      description: 'Edufy Portal Çalıştayında xrlab ekibinde görev alarak çalıştay için gelen hocalara bilgilendirmeler ve portal kullanımında yardımcı oldum.',
       slug: "portfolio-2"
     },
     {
-      src: getImgPath('/images/work-grow/frontend-development.jpg'),
-      alt: 'work-grow',
-      title: 'Frontend Development',
+      src: getImgPath('/images/photo/3.jpg'),
+      alt: 'Yıl Sonu Sergisi Hatırası',
+      title: 'Yıl Sonu Sergisi Hatırası',
+      description: 'Yıl sonu sergisinde hocalarım, rektör yardımcısı ve sınıf arkadaşlarımla birlikte çekilmiş hatıra fotoğrafı.',
       slug: "portfolio-3"
     },
     {
-      src: getImgPath('/images/work-grow/illustration.jpg'),
-      alt: 'work-grow',
-      title: 'Lying on arrow concept illustration',
+      src: getImgPath('/images/photo/4.jpg'),
+      alt: 'Çalışma 4',
+      title: 'Proje Çalışmaları',
+      description: 'Yaratıcı projeler ve işbirlikleri ile deneyim kazanma süreçleri.',
       slug: "portfolio-4"
     },
     {

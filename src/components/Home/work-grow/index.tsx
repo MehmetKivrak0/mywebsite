@@ -14,22 +14,16 @@ const WorkGrow = () => {
             <div className=''>
               <h2 className='text-secondary dark:text-white max-w-446'>
                 <Trans
-                  tr='Gelirini büyütmek için yaptığımız işler'
-                  en='Work done by us to grow your revenue'
+                  tr='Yaptığım işler: sergi, fotoğraf, çalıştay'
+                  en='My work: exhibitions, photography, workshops'
                 />
               </h2>
-              <p className='text-SlateBlue dark:text-darktext text-base font-normal py-9 max-w-408'>
+              <p className='text-SlateBlue dark:text-slate-200 text-base font-normal pt-9 pb-2 max-w-408'>
                 <Trans
-                  tr='İş hedeflerine uygun çözümler geliştiriyoruz.'
-                  en='Lorem ipsum dolor sit amet, consectetur adipiscing elited do eiusmod tempor incididunt.'
+                  tr='Sergi, fotoğraf ve çalıştay projelerimi öne çıkan görseller ve kısa notlarla özetledim.'
+                  en='A quick look at exhibition, photography, and workshop projects with brief notes.'
                 />
               </p>
-              <div className=''>
-                <Link href='/' className='btn inline-flex items-center gap-3'>
-                  <Trans tr='Başla' en='Get Started' />
-                  <i className="bg-no-repeat bg-contain w-4 h-3 inline-block" style={{ backgroundImage: `url(${getImgPath('/images/build-amazing/right-arrow.svg')})` }}></i>
-                </Link>
-              </div>
             </div>
             {boxData.slice(0, 3).map((item, index) => (
               <div
@@ -53,19 +47,18 @@ const WorkGrow = () => {
                     layout='responsive'
                     sizes='100vh'
                   />
-                  <div className='absolute sm:top-10 top-6 sm:left-10 left-6 group'>
-                    <Link
-                      href={`/portfolio/${item.slug}`}
-                      className='sm:text-[26px] leading-[2.11rem] text-20 text-white pb-6 font-bold max-w-356 inline-block'>
-                      {item.title}
-                    </Link>
-                    <Link
-                      href={`/portfolio/${item.slug}`}
-                      className='flex items-center gap-3 text-white sm:text-base text-sm font-normal group-hover:opacity-60'>
-                      <Trans tr='Detay' en='Learn More' />
-                      <i className="bg-no-repeat bg-contain w-4 h-3 inline-block transform transition-transform duration-300 ease-in-out group-hover:translate-x-1" style={{ backgroundImage: `url(${getImgPath('/images/build-amazing/right-arrow.svg')})` }}></i>
-                    </Link>
-                  </div>
+                </div>
+                <div className='pt-4 flex flex-col gap-2'>
+                  <Link
+                    href={`/portfolio/${item.slug}`}
+                    className='sm:text-[22px] text-[18px] leading-[1.4] text-secondary dark:text-white font-semibold hover:opacity-80 transition-opacity'>
+                    {item.title}
+                  </Link>
+                  {item.description && (
+                    <p className='text-SlateBlue dark:text-slate-200 text-sm sm:text-base leading-relaxed'>
+                      {item.description}
+                    </p>
+                  )}
                 </div>
               </div>
             ))}
